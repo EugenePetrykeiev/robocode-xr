@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+dist/
+admin-prototype/.figma/entity_refs.json
+.figma/entity_refs.json

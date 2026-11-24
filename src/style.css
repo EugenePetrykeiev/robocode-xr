@@ -544,6 +544,7 @@ h3 {
   height: 64%;
   pointer-events: none;
   z-index: 0;
+  stroke: none;
 }
 
 .metric:nth-child(2) .metric-icon {

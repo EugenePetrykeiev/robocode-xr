@@ -31,6 +31,33 @@ body {
   min-height: 100vh;
   color: #0e222b;
   background: var(--bg-page);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -38%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 24% 28%, rgba(52, 248, 130, 0.13), transparent 44%),
+    radial-gradient(circle at 78% 24%, rgba(22, 70, 254, 0.09), transparent 42%),
+    radial-gradient(circle at 68% 78%, rgba(215, 194, 184, 0.34), transparent 48%),
+    radial-gradient(circle at 26% 76%, rgba(52, 248, 130, 0.08), transparent 40%);
+  filter: blur(48px);
+  animation: bg-orbit 55s linear infinite;
+  will-change: transform;
+}
+
+@keyframes bg-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 button,
@@ -505,10 +532,42 @@ h3 {
   overflow: hidden;
 }
 
+.metric-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.metric-chart {
+  position: absolute;
+  inset: auto 0 0 28%;
+  width: 72%;
+  height: 64%;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .metric:nth-child(2) .metric-icon {
   border-color: rgba(22, 70, 254, 0.22);
   background: rgba(22, 70, 254, 0.08);
   color: var(--blue);
+}
+
+.metric.metric-danger {
+  border-color: rgba(200, 35, 60, 0.24);
+}
+
+.metric.metric-danger .metric-top {
+  color: #8c2032;
+}
+
+.metric.metric-danger .metric-icon {
+  border-color: rgba(200, 35, 60, 0.28);
+  background: rgba(200, 35, 60, 0.1);
+  color: var(--error);
+}
+
+.metric.metric-danger .metric-value {
+  color: #b41d34;
 }
 
 .metric-top {
@@ -744,15 +803,113 @@ h3 {
   color: #054a32;
 }
 
+.archive-surface {
+  margin-top: 24px;
+}
+
+.pill-muted {
+  border-color: rgba(14, 34, 43, 0.14);
+  background: rgba(14, 34, 43, 0.06);
+  color: #46606e;
+}
+
+.muted-avatar {
+  border-color: rgba(14, 34, 43, 0.14);
+  background: rgba(14, 34, 43, 0.06);
+  color: #536a79;
+}
+
+.seat-muted {
+  border-color: rgba(14, 34, 43, 0.14);
+  background: rgba(14, 34, 43, 0.06);
+  color: #46606e;
+}
+
+.archive-status.deleted {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(200, 35, 60, 0.26);
+  background: rgba(200, 35, 60, 0.09);
+  color: #b41d34;
+  font-size: 11px;
+  font-weight: 700;
+}
+
 .table-footer {
   border-top: 1px solid var(--glass-border);
   margin-top: 18px;
   padding-top: 18px;
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  font-size: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 11px;
   color: #5b7280;
+}
+
+.pager-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pager-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #5b7280;
+}
+
+.pager-size select {
+  height: 32px;
+  line-height: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.72);
+  color: #0e222b;
+  padding: 0 8px 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+
+.pager-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pager-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 9px;
+  border-radius: 9px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.65);
+  color: #25404d;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.pager-btn:hover:not(:disabled) {
+  border-color: rgba(22, 70, 254, 0.35);
+  color: var(--blue);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.pager-btn.active {
+  background: var(--green);
+  border-color: rgba(16, 176, 98, 0.3);
+  color: var(--dark-teal);
 }
 
 .demo-note {
@@ -1837,7 +1994,7 @@ h3 {
     border-radius: 20px;
   }
   .metric:nth-child(3) {
-    display: none;
+    grid-column: 1 / -1;
   }
   .metric-value {
     font-size: 32px;
@@ -1890,10 +2047,9 @@ h3 {
     display: none;
   }
   .table-footer {
-    font-size: 9px;
-  }
-  .table-footer span:last-child {
-    display: none;
+    font-size: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .demo-note {
     font-size: 9px;
